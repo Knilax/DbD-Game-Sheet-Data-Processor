@@ -6,3 +6,6 @@
   (Same folder as "Program.cs")
 3. Rename the .csv file to "sheet.csv" or just "sheet" if you have file name extensions turned off.
 4. Sheet is now able to be used by the processor.
+
+# More info
+I'm still updating it so it might be doo doo.
