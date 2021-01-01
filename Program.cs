@@ -16,7 +16,7 @@ class Program
 
     // DS appearance rate
     Console.WriteLine("Decisive strike appearance rate: " +
-      sheet.PerkAppearancePercent(false, "Decisive Strike") + "%");
+      sheet.PerkAppearanceRate(false, "Decisive Strike") + "%");
 
   }
 

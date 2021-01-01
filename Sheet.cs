@@ -51,7 +51,7 @@ public class Sheet
 	 * @param killer {bool} If killer perk
 	 * @param perkName {string} Name of perk
 	 */
-	public float PerkAppearancePercent(bool killer, string perkToFind)
+	public float PerkAppearanceRate(bool killer, string perkToFind)
   {
 		int totalEntries = 0;
 		int totalAppearances = 0;
@@ -83,6 +83,6 @@ public class Sheet
 		return (float) Math.Round((double) totalAppearances / totalEntries * 100,
 			2);
 
-  } // end PerkAppearancePercent
+	} // end PerkAppearanceRate
 
 } // end Sheet
