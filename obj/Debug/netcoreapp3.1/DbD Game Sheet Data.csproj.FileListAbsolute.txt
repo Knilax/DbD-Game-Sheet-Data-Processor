@@ -1,0 +1,13 @@
+D:\Visual Studio Projects\DbD Game Sheet Data\bin\Debug\netcoreapp3.1\DbD Game Sheet Data.exe
+D:\Visual Studio Projects\DbD Game Sheet Data\bin\Debug\netcoreapp3.1\DbD Game Sheet Data.deps.json
+D:\Visual Studio Projects\DbD Game Sheet Data\bin\Debug\netcoreapp3.1\DbD Game Sheet Data.runtimeconfig.json
+D:\Visual Studio Projects\DbD Game Sheet Data\bin\Debug\netcoreapp3.1\DbD Game Sheet Data.runtimeconfig.dev.json
+D:\Visual Studio Projects\DbD Game Sheet Data\bin\Debug\netcoreapp3.1\DbD Game Sheet Data.dll
+D:\Visual Studio Projects\DbD Game Sheet Data\bin\Debug\netcoreapp3.1\DbD Game Sheet Data.pdb
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.csprojAssemblyReference.cache
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.AssemblyInfoInputs.cache
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.AssemblyInfo.cs
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.csproj.CoreCompileInputs.cache
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.dll
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.pdb
+D:\Visual Studio Projects\DbD Game Sheet Data\obj\Debug\netcoreapp3.1\DbD Game Sheet Data.genruntimeconfig.cache
