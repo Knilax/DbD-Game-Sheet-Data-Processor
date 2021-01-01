@@ -31,8 +31,8 @@ public class Sheet
 			Environment.Exit(1);
 		}
 
-		// Header
-		sheetFile.ReadLine();
+		// Skip header
+		for(int i = 0; i < 5; i++) sheetFile.ReadLine();
 
 		// Add entries
 		string currentLine;

@@ -11,12 +11,8 @@ class Program
   static void Main(string[] args)
   {
 
-    // Debug
+    // Create sheet
     Sheet sheet = new Sheet("..\\..\\..\\sheet.csv");
-
-    // DS appearance rate
-    Console.WriteLine("Decisive strike appearance rate: " +
-      sheet.PerkAppearanceRate(false, "Decisive Strike") + "%");
 
   }
 
