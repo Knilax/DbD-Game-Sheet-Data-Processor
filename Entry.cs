@@ -85,8 +85,6 @@ public class Entry
 		PerksKiller = CopyData(ref rawEntry, ref ind, 4);
 		Notes = rawEntry[ind];
 
-		WriteAll();
-
 	} // end Entry constructor
 
 	/**
@@ -104,7 +102,7 @@ public class Entry
 		Array.Copy(source, startIndex, destination, 0, elementsCount);
 		startIndex += elementsCount;
 		return destination;
-	} // end copyData
+	} // end CopyData
 
 	/**
 	 * @desc Writes all information to console
