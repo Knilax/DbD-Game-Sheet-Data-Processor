@@ -96,7 +96,7 @@ public class Entry
 		PerksSurvivor3 = CopyData(ref rawEntry, ref ind, 4);
 		PerksSurvivor4 = CopyData(ref rawEntry, ref ind, 4);
 		PerksKiller = CopyData(ref rawEntry, ref ind, 4);
-		Notes = rawEntry[ind];
+		Notes = rawEntry[ind++];
 
 	} // end Entry constructor
 
@@ -157,6 +157,7 @@ public class Entry
 		Console.WriteLine("  Survivor 4 perks: " +
 			string.Join(", ", PerksSurvivor4));
 		Console.WriteLine($"  Killer perks: {string.Join(", ", PerksKiller)}");
+		Console.WriteLine($"  Notes: {Notes}");
 	} // end WriteAll
 
 } // end Entry
