@@ -20,12 +20,14 @@ public class Entry
 	public string VODKiller { get; set; }
 	public string StreamingSelf { get; set; }
 	public string StreamingOther { get; set; }
-	public string PerformanceKiller { get; set; }
-	public string PerformanceSurvivor { get; set; }
 	public string GreetedStreamer { get; set; }
 	public string ToxicEnemy { get; set; }
 	public string ToxicFriendly { get; set; }
+	public string PerformanceKiller { get; set; }
+	public string PerformanceSurvivor { get; set; }
 	public string DCSuicide { get; set; }
+	public string[] Escaped { get; set; }
+	public string[] Cheating { get; set; }
 	public string[] RankDistribution { get; set; }
 	public string[] Items { get; set; }
 	public string[] Offerings { get; set; }
@@ -48,6 +50,8 @@ public class Entry
 		string[] rawEntry = stringEntry.Split(",");
 
 		// Initialize arrays
+		Escaped = new string[4];
+		Cheating = new string[5];
 		Items = new string[4];
 		Offerings = new string[5];
 		PerksSurvivor1 = new string[4];
@@ -69,12 +73,14 @@ public class Entry
 		VODKiller = rawEntry[ind++];
 		StreamingSelf = rawEntry[ind++];
 		StreamingOther = rawEntry[ind++];
-		PerformanceKiller = rawEntry[ind++];
-		PerformanceSurvivor = rawEntry[ind++];
 		GreetedStreamer = rawEntry[ind++];
 		ToxicEnemy = rawEntry[ind++];
 		ToxicFriendly = rawEntry[ind++];
+		PerformanceKiller = rawEntry[ind++];
+		PerformanceSurvivor = rawEntry[ind++];
 		DCSuicide = rawEntry[ind++];
+		Escaped = CopyData(ref rawEntry, ref ind, 4);
+		Cheating = CopyData(ref rawEntry, ref ind, 5);
 		RankDistribution = CopyData(ref rawEntry, ref ind, 5);
 		Items = CopyData(ref rawEntry, ref ind, 4);
 		Offerings = CopyData(ref rawEntry, ref ind, 5);
@@ -120,12 +126,14 @@ public class Entry
 		Console.WriteLine($"  Killer VOD: {VODKiller}");
 		Console.WriteLine($"  Was I streaming?: {StreamingSelf}");
 		Console.WriteLine($"  Was someone else streaming?: {StreamingOther}");
-		Console.WriteLine($"  Killer performance: {PerformanceKiller}");
-		Console.WriteLine($"  Survivor performance: {PerformanceSurvivor}");
 		Console.WriteLine($"  Streamer greated?: {GreetedStreamer}");
 		Console.WriteLine($"  Was your enemy toxic?: {ToxicEnemy}");
 		Console.WriteLine($"  Was your team toxic?: {ToxicFriendly}");
+		Console.WriteLine($"  Killer performance: {PerformanceKiller}");
+		Console.WriteLine($"  Survivor performance: {PerformanceSurvivor}");
 		Console.WriteLine($"  Was there a DC/Suicide?: {DCSuicide}");
+		Console.WriteLine($"  Escaped: {string.Join(", ", Escaped)}");
+		Console.WriteLine($"  Were they cheating?: {string.Join(", ", Cheating)}");
 		Console.WriteLine("  Rank distribution: " +
 			string.Join(", ", RankDistribution));
 		Console.WriteLine($"  Items: {string.Join(", ", Items)}");

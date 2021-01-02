@@ -41,6 +41,10 @@ public class Sheet
 			Entries.Add(new Entry(currentLine));
     }
 
+		// DEBUG
+		foreach (Entry entry in Entries)
+			entry.WriteAll();
+
 		// Close input file
 		sheetFile.Close();
 
