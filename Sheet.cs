@@ -54,6 +54,7 @@ public class Sheet
 	 */
 	public float PerkAppearanceRate(bool killer, string perkToFind)
   {
+		perkToFind = perkToFind.ToLower();
 		int totalEntries = 0;
 		int totalAppearances = 0;
 		foreach (Entry entry in Entries)
@@ -63,20 +64,20 @@ public class Sheet
       {
 				totalEntries += 1;
 				foreach (string perk in entry.PerksKiller)
-					if (perk == perkToFind) totalAppearances++;
+					if (perk.ToLower() == perkToFind) totalAppearances++;
       }
 			// Search survivors' perks
 			else
 			{
 				totalEntries += 4;
 				foreach (string perk in entry.PerksSurvivor1)
-					if (perk == perkToFind) totalAppearances++;
+					if (perk.ToLower() == perkToFind) totalAppearances++;
 				foreach (string perk in entry.PerksSurvivor2)
-					if (perk == perkToFind) totalAppearances++;
+					if (perk.ToLower() == perkToFind) totalAppearances++;
 				foreach (string perk in entry.PerksSurvivor3)
-					if (perk == perkToFind) totalAppearances++;
+					if (perk.ToLower() == perkToFind) totalAppearances++;
 				foreach (string perk in entry.PerksSurvivor4)
-					if (perk == perkToFind) totalAppearances++;
+					if (perk.ToLower() == perkToFind) totalAppearances++;
 			}
 		} // end foreach
 
@@ -85,5 +86,7 @@ public class Sheet
 			2);
 
 	} // end PerkAppearanceRate
+
+
 
 } // end Sheet

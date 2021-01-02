@@ -33,6 +33,7 @@ public class Entry
 	public string[] Cheating { get; set; }
 	public string[] RankDistribution { get; set; }
 	public string[] Items { get; set; }
+	public string[] AddonsKiller { get; set; }
 	public string[] Offerings { get; set; }
 	public string[] PerksSurvivor1 { get; set; }
 	public string[] PerksSurvivor2 { get; set; }
@@ -57,6 +58,7 @@ public class Entry
 		PCPlayer = new string[5];
 		Cheating = new string[5];
 		Items = new string[4];
+		AddonsKiller = new string[2];
 		Offerings = new string[5];
 		PerksSurvivor1 = new string[4];
 		PerksSurvivor2 = new string[4];
@@ -90,6 +92,7 @@ public class Entry
 		Cheating = CopyData(ref rawEntry, ref ind, 5);
 		RankDistribution = CopyData(ref rawEntry, ref ind, 5);
 		Items = CopyData(ref rawEntry, ref ind, 4);
+		AddonsKiller = CopyData(ref rawEntry, ref ind, 2);
 		Offerings = CopyData(ref rawEntry, ref ind, 5);
 		PerksSurvivor1 = CopyData(ref rawEntry, ref ind, 4);
 		PerksSurvivor2 = CopyData(ref rawEntry, ref ind, 4);
@@ -115,6 +118,7 @@ public class Entry
 		Array.Copy(source, startIndex, destination, 0, elementsCount);
 		startIndex += elementsCount;
 		return destination;
+
 	} // end CopyData
 
 	/**
@@ -147,6 +151,7 @@ public class Entry
 		Console.WriteLine("  Rank distribution: " +
 			string.Join(", ", RankDistribution));
 		Console.WriteLine($"  Items: {string.Join(", ", Items)}");
+		Console.WriteLine($"  Killer Addons: {string.Join(", ", AddonsKiller)}");
 		Console.WriteLine($"  Offerings: {string.Join(", ", Offerings)}");
 		Console.WriteLine("  Survivor 1 perks: " +
 			string.Join(", ", PerksSurvivor1));
@@ -158,6 +163,7 @@ public class Entry
 			string.Join(", ", PerksSurvivor4));
 		Console.WriteLine($"  Killer perks: {string.Join(", ", PerksKiller)}");
 		Console.WriteLine($"  Notes: {Notes}");
+
 	} // end WriteAll
 
 } // end Entry
