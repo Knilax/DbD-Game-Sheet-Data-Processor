@@ -12,6 +12,7 @@ public class Entry
 	// Properties
 	public string Date { get; set; }
 	public string TimeAdded { get; set; }
+	public string HasCompleteInfo { get; set; }
 	public string Role { get; set; }
 	public string SurvivorNumber { get; set; }
 	public string Killer { get; set; }
@@ -25,8 +26,10 @@ public class Entry
 	public string ToxicFriendly { get; set; }
 	public string PerformanceKiller { get; set; }
 	public string PerformanceSurvivor { get; set; }
+	public string EmblemResult { get; set; }
 	public string DCSuicide { get; set; }
 	public string[] Escaped { get; set; }
+	public string[] PCPlayer { get; set; }
 	public string[] Cheating { get; set; }
 	public string[] RankDistribution { get; set; }
 	public string[] Items { get; set; }
@@ -51,6 +54,7 @@ public class Entry
 
 		// Initialize arrays
 		Escaped = new string[4];
+		PCPlayer = new string[5];
 		Cheating = new string[5];
 		Items = new string[4];
 		Offerings = new string[5];
@@ -65,6 +69,7 @@ public class Entry
 		// Set properties
 		Date = rawEntry[ind++];
 		TimeAdded = rawEntry[ind++];
+		HasCompleteInfo = rawEntry[ind++];
 		Role = rawEntry[ind++];
 		SurvivorNumber = rawEntry[ind++];
 		Killer = rawEntry[ind++];
@@ -78,8 +83,10 @@ public class Entry
 		ToxicFriendly = rawEntry[ind++];
 		PerformanceKiller = rawEntry[ind++];
 		PerformanceSurvivor = rawEntry[ind++];
+		EmblemResult = rawEntry[ind++];
 		DCSuicide = rawEntry[ind++];
 		Escaped = CopyData(ref rawEntry, ref ind, 4);
+		PCPlayer = CopyData(ref rawEntry, ref ind, 5);
 		Cheating = CopyData(ref rawEntry, ref ind, 5);
 		RankDistribution = CopyData(ref rawEntry, ref ind, 5);
 		Items = CopyData(ref rawEntry, ref ind, 4);
@@ -118,6 +125,7 @@ public class Entry
 		Console.WriteLine();
 		Console.WriteLine($"Date: {Date}");
 		Console.WriteLine($"Time Added: {TimeAdded}");
+		Console.WriteLine($"  Has complete information?: {HasCompleteInfo}");
 		Console.WriteLine($"  Role: {Role}");
 		Console.WriteLine($"  Which # survivor was I?: {SurvivorNumber}");
 		Console.WriteLine($"  Killer: {Killer}");
@@ -131,8 +139,10 @@ public class Entry
 		Console.WriteLine($"  Was your team toxic?: {ToxicFriendly}");
 		Console.WriteLine($"  Killer performance: {PerformanceKiller}");
 		Console.WriteLine($"  Survivor performance: {PerformanceSurvivor}");
+		Console.WriteLine($"  Emblem result: {EmblemResult}");
 		Console.WriteLine($"  Was there a DC/Suicide?: {DCSuicide}");
 		Console.WriteLine($"  Escaped: {string.Join(", ", Escaped)}");
+		Console.WriteLine($"  PC Player?: {string.Join(", ", PCPlayer)}");
 		Console.WriteLine($"  Were they cheating?: {string.Join(", ", Cheating)}");
 		Console.WriteLine("  Rank distribution: " +
 			string.Join(", ", RankDistribution));

@@ -38,12 +38,9 @@ public class Sheet
 		string currentLine;
 		while ((currentLine = sheetFile.ReadLine()) != null)
     {
-			Entries.Add(new Entry(currentLine));
+			Entry entry = new Entry(currentLine);
+			Entries.Add(entry);
     }
-
-		// DEBUG
-		foreach (Entry entry in Entries)
-			entry.WriteAll();
 
 		// Close input file
 		sheetFile.Close();

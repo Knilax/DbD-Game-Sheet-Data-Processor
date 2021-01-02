@@ -14,6 +14,11 @@ class Program
     // Create sheet
     Sheet sheet = new Sheet("..\\..\\..\\sheet.csv");
 
+    // Write all entries
+    foreach (Entry entry in sheet.Entries)
+      if(entry.HasCompleteInfo.ToLower() == "yes")
+        entry.WriteAll();
+
   }
 
 }
