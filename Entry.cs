@@ -10,11 +10,11 @@ public class Entry
 {
 
 	// Properties
+	public string LastMajorUpdate { get; set; }
 	public string Date { get; set; }
 	public string TimeAdded { get; set; }
-	public string HasCompleteInfo { get; set; }
 	public string Role { get; set; }
-	public string SurvivorNumber { get; set; }
+	public string ScorescreenSlot { get; set; }
 	public string Killer { get; set; }
 	public string Map { get; set; }
 	public string VODSurvivor { get; set; }
@@ -26,11 +26,12 @@ public class Entry
 	public string ToxicFriendly { get; set; }
 	public string PerformanceKiller { get; set; }
 	public string PerformanceSurvivor { get; set; }
-	public string EmblemResult { get; set; }
+	public string PipResult { get; set; }
+	public string InParty { get; set; }
 	public string DCSuicide { get; set; }
 	public string[] Escaped { get; set; }
 	public string[] PCPlayer { get; set; }
-	public string[] Cheating { get; set; }
+	public string Cheating { get; set; }
 	public string[] RankDistribution { get; set; }
 	public string[] Items { get; set; }
 	public string[] AddonsKiller { get; set; }
@@ -51,12 +52,11 @@ public class Entry
 		// Split stringEntry into array
 		// TODO: Currently splits ANY comma in the string, including one in the
 		// "Notes" cell
-		string[] rawEntry = stringEntry.Split(",");
+		string[] rawEntry = splitIgnoreQuotes(stringEntry, ',');
 
 		// Initialize arrays
 		Escaped = new string[4];
 		PCPlayer = new string[5];
-		Cheating = new string[5];
 		Items = new string[4];
 		AddonsKiller = new string[2];
 		Offerings = new string[5];
@@ -69,11 +69,11 @@ public class Entry
 		// Starting index for raw entry
 		int ind = 0;
 		// Set properties
+		LastMajorUpdate = rawEntry[ind++];
 		Date = rawEntry[ind++];
 		TimeAdded = rawEntry[ind++];
-		HasCompleteInfo = rawEntry[ind++];
 		Role = rawEntry[ind++];
-		SurvivorNumber = rawEntry[ind++];
+		ScorescreenSlot = rawEntry[ind++];
 		Killer = rawEntry[ind++];
 		Map = rawEntry[ind++];
 		VODSurvivor = rawEntry[ind++];
@@ -85,11 +85,12 @@ public class Entry
 		ToxicFriendly = rawEntry[ind++];
 		PerformanceKiller = rawEntry[ind++];
 		PerformanceSurvivor = rawEntry[ind++];
-		EmblemResult = rawEntry[ind++];
+		PipResult = rawEntry[ind++];
+		InParty = rawEntry[ind++];
 		DCSuicide = rawEntry[ind++];
 		Escaped = CopyData(ref rawEntry, ref ind, 4);
 		PCPlayer = CopyData(ref rawEntry, ref ind, 5);
-		Cheating = CopyData(ref rawEntry, ref ind, 5);
+		Cheating = rawEntry[ind++];
 		RankDistribution = CopyData(ref rawEntry, ref ind, 5);
 		Items = CopyData(ref rawEntry, ref ind, 4);
 		AddonsKiller = CopyData(ref rawEntry, ref ind, 2);
@@ -102,6 +103,53 @@ public class Entry
 		Notes = rawEntry[ind++];
 
 	} // end Entry constructor
+
+	/**
+	 * @desc Split but ignore delimiters within quotes
+	 * @param str {string} Raw string
+	 * @param delim {char} Delimiter
+	 * @return {string[]} Array of strings
+	 */
+	private string[] splitIgnoreQuotes(string str, char delim)
+  {
+		// If first and last character of string are quote, remove them
+		if(str[0] == '"' && str[str.Length - 1] == '"')
+			str = str.Substring(0, str.Length - 1);
+
+		// Create temporary list for row
+		List<string> row = new List<string>();
+
+		// Split string by delimiter (but ignore things within quotes)
+		//	I know this is inefficient (like most things in this program)
+		//  but I don't foresee it mattering.
+		string currentString = "";
+		bool ignoreDelimiters = false;
+		foreach(char c in str)
+    {
+			// If meet quote, toggle ignoring string
+			if(c == '"') ignoreDelimiters = !ignoreDelimiters;
+
+			// If ignoring delimiter
+			if (ignoreDelimiters) currentString += c;
+			// If not currently ignoring delimiter
+			else
+			{
+				// Split if meeting delimiter
+				if (c == delim)
+				{
+					row.Add(currentString);
+					currentString = "";
+				}
+				// Add to current string
+				else currentString += c;
+			}
+    }
+		// Add last string to list
+		row.Add(currentString);
+
+		// Return
+		return row.ToArray();
+  } // end splitIgnoreQuotes
 
 	/**
 	 * @desc Copy given number of elements from starting position and add to
@@ -127,11 +175,12 @@ public class Entry
 	public void WriteAll()
 	{
 		Console.WriteLine();
+		Console.WriteLine($"Most recent major update: {LastMajorUpdate}");
 		Console.WriteLine($"Date: {Date}");
 		Console.WriteLine($"Time Added: {TimeAdded}");
-		Console.WriteLine($"  Has complete information?: {HasCompleteInfo}");
 		Console.WriteLine($"  Role: {Role}");
-		Console.WriteLine($"  Which # survivor was I?: {SurvivorNumber}");
+		Console.WriteLine($"  Which scorescreen slot was I in?: " +
+			$"{ScorescreenSlot}");
 		Console.WriteLine($"  Killer: {Killer}");
 		Console.WriteLine($"  Map: {Map}");
 		Console.WriteLine($"  Survivor VOD: {VODSurvivor}");
@@ -143,11 +192,11 @@ public class Entry
 		Console.WriteLine($"  Was your team toxic?: {ToxicFriendly}");
 		Console.WriteLine($"  Killer performance: {PerformanceKiller}");
 		Console.WriteLine($"  Survivor performance: {PerformanceSurvivor}");
-		Console.WriteLine($"  Emblem result: {EmblemResult}");
+		Console.WriteLine($"  Emblem result: {PipResult}");
 		Console.WriteLine($"  Was there a DC/Suicide?: {DCSuicide}");
 		Console.WriteLine($"  Escaped: {string.Join(", ", Escaped)}");
 		Console.WriteLine($"  PC Player?: {string.Join(", ", PCPlayer)}");
-		Console.WriteLine($"  Were they cheating?: {string.Join(", ", Cheating)}");
+		Console.WriteLine($"  Cheater?: {Cheating}");
 		Console.WriteLine("  Rank distribution: " +
 			string.Join(", ", RankDistribution));
 		Console.WriteLine($"  Items: {string.Join(", ", Items)}");

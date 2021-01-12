@@ -16,8 +16,10 @@ class Program
 
     // Write all entries
     foreach (Entry entry in sheet.Entries)
-      if(entry.HasCompleteInfo.ToLower() == "yes")
-        entry.WriteAll();
+      entry.WriteAll();
+
+    // Newline
+    Console.WriteLine();
 
     // DS Appearance rate
     Console.WriteLine("Decisive strike: " +
@@ -28,8 +30,10 @@ class Program
       sheet.PerkAppearanceRate(false, "Unbreakable") + "%"); 
     Console.WriteLine("Dead Hard: " +
       sheet.PerkAppearanceRate(false, "Dead Hard") + "%");
-    Console.WriteLine("HEX: Ruin: " +
-      sheet.PerkAppearanceRate(true, "HEX: Ruin") + "%");
+    Console.WriteLine("Sprint Burst: " +
+      sheet.PerkAppearanceRate(false, "Sprint Burst") + "%");
+    Console.WriteLine("Alert: " +
+      sheet.PerkAppearanceRate(false, "Alert") + "%");
 
   }
 

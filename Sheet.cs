@@ -59,27 +59,76 @@ public class Sheet
 		int totalAppearances = 0;
 		foreach (Entry entry in Entries)
     {
+			// Don't include a killer/survivor if they have an unknown perk
+			bool hasUnknownPerks = false;
+			int currentAppearances = 0;
+
+			// Save scorescreen slot of spreadsheet contributor if survivor
+			// (To ignore the contributor so they do not interfere with data)
+			int slotToIgnore = -1;
+			if (int.TryParse(entry.ScorescreenSlot, out _))
+				slotToIgnore = int.Parse(entry.ScorescreenSlot);
+
 			// Search killer's perks
-			if (killer)
+			if (killer && slotToIgnore != 5)
       {
-				totalEntries += 1;
+				// Find appearance rates
 				foreach (string perk in entry.PerksKiller)
-					if (perk.ToLower() == perkToFind) totalAppearances++;
-      }
+				{
+					// This killer has an unknown perk so don't include this entry
+					if (perk == "?")
+          {
+						hasUnknownPerks = true;
+						currentAppearances = 0;
+						break;
+					}
+					
+					// As normal
+					else if (perk.ToLower() == perkToFind) currentAppearances++;
+				}
+
+				// No unknown perks so entry was fine
+				if (!hasUnknownPerks)
+        {
+					totalEntries += 1;
+					totalAppearances += currentAppearances;
+        }
+      } // end searching killer perks
+
 			// Search survivors' perks
 			else
 			{
-				totalEntries += 4;
-				foreach (string perk in entry.PerksSurvivor1)
-					if (perk.ToLower() == perkToFind) totalAppearances++;
-				foreach (string perk in entry.PerksSurvivor2)
-					if (perk.ToLower() == perkToFind) totalAppearances++;
-				foreach (string perk in entry.PerksSurvivor3)
-					if (perk.ToLower() == perkToFind) totalAppearances++;
-				foreach (string perk in entry.PerksSurvivor4)
-					if (perk.ToLower() == perkToFind) totalAppearances++;
-			}
-		} // end foreach
+				// Merge all survivor perks into one list
+				List<string> allPerks = new List<string>();
+				if (slotToIgnore != 1) allPerks.AddRange(entry.PerksSurvivor1);
+				if (slotToIgnore != 2) allPerks.AddRange(entry.PerksSurvivor2);
+				if (slotToIgnore != 3) allPerks.AddRange(entry.PerksSurvivor3);
+				if (slotToIgnore != 4) allPerks.AddRange(entry.PerksSurvivor4);
+
+				// Find appearance rates
+				foreach (string perk in allPerks)
+				{
+					// A survivor has an unknown perk so don't include this entry
+					if (perk == "?")
+					{
+						hasUnknownPerks = true;
+						currentAppearances = 0;
+						break;
+					}
+					// As normal
+					else if (perk.ToLower() == perkToFind) currentAppearances++;
+				}
+
+				// No unknown perks so entry was fine
+				if(!hasUnknownPerks)
+        {
+					totalEntries += allPerks.Count / 4;
+					totalAppearances += currentAppearances;
+				}
+
+			} // end searching survivor perks
+
+		} // end foreach of each entry
 
 		// Return percent
 		return (float) Math.Round((double) totalAppearances / totalEntries * 100,
