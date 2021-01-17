@@ -68,6 +68,9 @@ public class Perk
 			if (int.TryParse(entry.ScorescreenSlot, out _))
 				slotToIgnore = int.Parse(entry.ScorescreenSlot);
 
+      // If unknown scorescreen slot, ignore this entry
+      if (slotToIgnore == -1) continue;
+
       // Survivor
       if (!isKiller)
       {
