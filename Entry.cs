@@ -10,38 +10,38 @@ public class Entry
 {
 
 	// Properties
-	public string LastMajorUpdate { get; set; }
-	public string Date { get; set; }
-	public string TimeAdded { get; set; }
-	public string Role { get; set; }
-	public string ScorescreenSlot { get; set; }
-	public string Killer { get; set; }
-	public string Map { get; set; }
-	public string VODSurvivor { get; set; }
-	public string VODKiller { get; set; }
-	public string StreamingSelf { get; set; }
-	public string StreamingOther { get; set; }
-	public string GreetedStreamer { get; set; }
-	public string ToxicEnemy { get; set; }
-	public string ToxicFriendly { get; set; }
-	public string PerformanceKiller { get; set; }
-	public string PerformanceSurvivor { get; set; }
-	public string PipResult { get; set; }
-	public string InParty { get; set; }
-	public string DCSuicide { get; set; }
-	public string[] Escaped { get; set; }
-	public string[] PCPlayer { get; set; }
-	public string Cheating { get; set; }
-	public string[] RankDistribution { get; set; }
-	public string[] Items { get; set; }
-	public string[] AddonsKiller { get; set; }
-	public string[] Offerings { get; set; }
-	public string[] PerksSurvivor1 { get; set; }
-	public string[] PerksSurvivor2 { get; set; }
-	public string[] PerksSurvivor3 { get; set; }
-	public string[] PerksSurvivor4 { get; set; }
-	public string[] PerksKiller { get; set; }
-	public string Notes { get; set; }
+	public string LastMajorUpdate;
+	public string Date;
+	public string TimeAdded;
+	public string Role;
+	public string ScorescreenSlot;
+	public string Killer;
+	public string Map;
+	public string VODSurvivor;
+	public string VODKiller;
+	public string StreamingSelf;
+	public string StreamingOther;
+	public string GreetedStreamer;
+	public string ToxicEnemy;
+	public string ToxicFriendly;
+	public string PerformanceKiller;
+	public string PerformanceSurvivor;
+	public string PipResult;
+	public string InParty;
+	public string DCSuicide;
+	public string[] Escaped;
+	public string[] PCPlayer;
+	public string Cheating;
+	public string[] RankDistribution;
+	public string[] Items;
+	public string[] AddonsKiller;
+	public string[] Offerings;
+	public string[] PerksSurvivor1;
+	public string[] PerksSurvivor2;
+	public string[] PerksSurvivor3;
+	public string[] PerksSurvivor4;
+	public string[] PerksKiller;
+	public string Notes;
 
 	/**
    * @desc Constructor
@@ -66,6 +66,9 @@ public class Entry
 		PerksSurvivor4 = new string[4];
 		PerksKiller = new string[4];
 
+		// The reason I do it like this is because I add/change header names
+		//   a lot. This allows me to flexibly change the order of headers.
+		//   If there's a better way, I do not know it because I am dumb.
 		// Starting index for raw entry
 		int ind = 0;
 		// Set properties
@@ -121,7 +124,8 @@ public class Entry
 
 		// Split string by delimiter (but ignore things within quotes)
 		//	I know this is inefficient (like most things in this program)
-		//  but I don't foresee it mattering.
+		//  but I don't foresee it mattering. This program mostly exists to
+		//  run once and enter the results to the second tab of the spreadsheet.
 		string currentString = "";
 		bool ignoreDelimiters = false;
 		foreach(char c in str)
