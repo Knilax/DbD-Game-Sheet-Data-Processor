@@ -34,7 +34,7 @@ public class Perk : AppearanceCounter
     {
 
       // Save scorescreen slot of spreadsheet contributor if survivor
-      // (To ignore the contributor so they do not interfere with data)
+      // (To ignore the spreadsheet owner so they do not interfere with data)
       int slotToIgnore = -1;
       if (int.TryParse(entry.ScorescreenSlot, out _))
         slotToIgnore = int.Parse(entry.ScorescreenSlot);
