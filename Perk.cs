@@ -6,16 +6,10 @@ using System.Text;
  * @author Knilax
  * @desc Represents a perk
  */
-public class Perk
+public class Perk : AppearanceCounter
 {
 
-  // Properties
-  public string Name;
-
   // Fields
-  private int appearances;
-  private int perksChecked;
-  private Sheet sheet;
   private bool isKiller;
 
   /**
@@ -24,49 +18,26 @@ public class Perk
    * @param name {string} Name of the perk
    * @param isKiller {bool} Whether or not this is a killer perk
    */
-  public Perk(Sheet sheet, string name, bool isKiller)
+  public Perk(Sheet sheet, string name, bool isKiller) : base(sheet, name)
   {
-    this.sheet = sheet;
-    Name = name;
     this.isKiller = isKiller;
   }
 
   /**
-   * @desc Check an array of four perks and see if contains this perk
-   * @param perks {string[]} Array of four perks to check
+   * @desc Find how often perk appears in entries
+   * @return {float} Percentage appearance rate
    */
-  public void CheckPerks(string[] perks)
+  public override void FindAppearances()
   {
-    bool encounteredUnknown = false;
-    bool appeared = false;
-    foreach (string perk in perks)
-    {
-      // Checks
-      if (perk == "?") encounteredUnknown = true;
-      else if (perk.ToLower() == Name.ToLower()) appeared = true;
-    }
-    // Add appearances/checks if no unknown perks
-    if(!encounteredUnknown)
-    {
-      if(appeared) appearances++;
-      perksChecked++;
-    }
-  } // end CheckSurvivor
-
-  /**
-   * @desc 
-   */
-  public float AppearanceRate()
-  {
-		// Check entries
-		foreach(Entry entry in sheet.Entries)
+    // Check entries
+    foreach (Entry entry in ParentSheet.Entries)
     {
 
-			// Save scorescreen slot of spreadsheet contributor if survivor
-			// (To ignore the contributor so they do not interfere with data)
-			int slotToIgnore = -1;
-			if (int.TryParse(entry.ScorescreenSlot, out _))
-				slotToIgnore = int.Parse(entry.ScorescreenSlot);
+      // Save scorescreen slot of spreadsheet contributor if survivor
+      // (To ignore the contributor so they do not interfere with data)
+      int slotToIgnore = -1;
+      if (int.TryParse(entry.ScorescreenSlot, out _))
+        slotToIgnore = int.Parse(entry.ScorescreenSlot);
 
       // If unknown scorescreen slot, ignore this entry
       if (slotToIgnore == -1) continue;
@@ -88,9 +59,28 @@ public class Perk
 
     } // end foreach entry in Entries
 
-    // Return
-    return (float) Math.Round( (float) appearances / perksChecked * 100, 2 );
+  } // end FindAppearances
 
-  } // end FindAppearanceRate
+  /**
+   * @desc Check an array of four perks and see if contains this perk
+   * @param perks {string[]} Array of four perks to check
+   */
+  private void CheckPerks(string[] perks)
+  {
+    bool encounteredUnknown = false;
+    bool appeared = false;
+    foreach (string perk in perks)
+    {
+      // Checks
+      if (perk == "?") encounteredUnknown = true;
+      else if (perk.ToLower() == Name.ToLower()) appeared = true;
+    }
+    // Add appearances/checks if no unknown perks
+    if(!encounteredUnknown)
+    {
+      if(appeared) dataAppearances++;
+      dataChecked++;
+    }
+  } // end CheckSurvivor
 
 } // end Perk

@@ -12,15 +12,11 @@ class Program
   {
 
     // Create sheet
-    Sheet sheet = new Sheet("..\\..\\..\\sheet.csv");
+    Sheet sheet = new Sheet("..\\..\\..\\sheet.csv", "Twins");
 
-    // List all survivor perks ordered
+    // List all favorite killers ordered
     Console.WriteLine();
-    sheet.WritePerkAppearances(false);
-
-    // List all killer perks ordered
-    Console.WriteLine();
-    sheet.WritePerkAppearances(true);
+    sheet.WriteAppearances(sheet.AppearancesKiller());
 
   }
 

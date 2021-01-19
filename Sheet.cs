@@ -12,12 +12,18 @@ public class Sheet
 
 	// Properties
 	public List<Entry> Entries = new List<Entry>();
+	public string Update;
 
 	/**
    * @desc Constructor
+   * @param path {string} Path of .csv file
+   * @param update {string} Game update of entries to save
    */
-	public Sheet(string path)
+	public Sheet(string path, string update)
 	{
+
+		// Properties
+		Update = update;
 
 		// Open input file
 		StreamReader sheetFile = null;
@@ -39,7 +45,7 @@ public class Sheet
 		while ((currentLine = sheetFile.ReadLine()) != null)
     {
 			Entry entry = new Entry(currentLine);
-			Entries.Add(entry);
+			if(entry.LastMajorUpdate == Update) Entries.Add(entry);
     }
 
 		// Close input file
@@ -48,17 +54,55 @@ public class Sheet
 	} // end Sheet constructor
 
 	/**
-	 * @desc List of all perks in spreadsheet.
-	 * @param killer {bool} Whether or not to search killer perks.
-	 * @return {Perk[]} Array of all Perk instances
+	 * @desc Sorts an array of AppearanceCounter instances
+	 * @param myArray {AppearanceCounter[]} Array of AppearanceCounter instances
 	 */
-	public Perk[] PerksAll(bool killer)
+	private void SortAppearanceCounters(AppearanceCounter[] unsortedArray)
   {
+		Array.Sort(unsortedArray,
+			delegate (AppearanceCounter x, AppearanceCounter y)
+		{
+			return y.AppearanceRate().CompareTo(x.AppearanceRate());
+		});
+	}
+
+	/**
+	 * @desc Writes out array of AppearanceCounter instances ordered
+	 * @param arr {AppearanceCounter[]} Array of AppearanceCounter instances
+	 */
+	public void WriteAppearances(AppearanceCounter[] arr)
+  {
+
+		// Write all perks
+		int num = 1;
+		foreach (AppearanceCounter appearanceCounter in arr)
+		{
+
+			string name = appearanceCounter.Name;
+
+			// Don't include empty and unknown
+			if (name == "" || name == "?") continue;
+
+			// Write
+			Console.WriteLine($"{num}. {name} " +
+				$"({appearanceCounter.AppearanceRate()}%)");
+			num++;
+
+		} // end foreach appearanceCounter in arr
+
+	} // end WriteAppearances
+
+	/**
+   * @desc Returns array of all perks, sorted
+   * @param killer {bool} Whether or not to check killer perks.
+   */
+	public Perk[] AppearancesPerk(bool killer)
+	{
 
 		// List of all names of perks found in spreadsheet
 		List<string> allPerkNames = new List<string>();
-		foreach(Entry entry in Entries)
-    {
+		foreach (Entry entry in Entries)
+		{
 			// Survivor
 			if (!killer)
 			{
@@ -73,7 +117,7 @@ public class Sheet
 			}
 			// Killer
 			else
-      {
+			{
 				foreach (string perk in entry.PerksKiller)
 					if (!allPerkNames.Contains(perk)) allPerkNames.Add(perk);
 			}
@@ -81,40 +125,40 @@ public class Sheet
 
 		// Array of all Perk objects
 		Perk[] allPerks = new Perk[allPerkNames.Count];
-		for(int i = 0; i < allPerks.Length; i++)
-    {
-			// Create Perk
-			Perk perk = new Perk(this, allPerkNames[i], killer);
-			allPerks[i] = perk;
-    }
+		for (int i = 0; i < allPerks.Length; i++)
+			allPerks[i] = new Perk(this, allPerkNames[i], killer);
 
 		// Sort array
-		Array.Sort(allPerks, delegate(Perk x, Perk y) {
-			return y.AppearanceRate().CompareTo(x.AppearanceRate());
-		} );
+		SortAppearanceCounters(allPerks);
 
-		// Return temp
+		// Return
 		return allPerks;
 
-	} // end PerksAll
+	} // end WritePerkAppearances
 
 	/**
-   * @desc Writes out all perks in spreadsheet in order of appearance rate.
-   * @param killer {bool} Whether or not to check killer perks.
-   */
-	public void WritePerkAppearances(bool killer)
-	{
-		int num = 1;
-		foreach (Perk perk in PerksAll(killer))
-		{
-			string perkName = perk.Name;
+	 * @desc Writes out all killers in order of how often they are used
+	 */
+	public Killer[] AppearancesKiller()
+  {
 
-			// Don't include empty and unknown
-			if (perkName == "" || perkName == "?") continue;
+		// List of all known killers
+		List<string> killerNames = new List<string>();
+		foreach (Entry entry in Entries)
+			if (!killerNames.Contains(entry.Killer))
+				killerNames.Add(entry.Killer);
 
-			Console.WriteLine($"{num}. {perkName} ({perk.AppearanceRate()}%)");
-			num++;
-		}
-	}
+		// Array of Killer objects
+		Killer[] killers = new Killer[killerNames.Count];
+		for (int i = 0; i < killerNames.Count; i++)
+			killers[i] = new Killer(this, killerNames[i]);
+
+		// Sort array
+		SortAppearanceCounters(killers);
+
+		// Return
+		return killers;
+
+	} // end AppearancesKiller
 
 } // end Sheet
