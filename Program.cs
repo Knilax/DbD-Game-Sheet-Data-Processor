@@ -14,6 +14,9 @@ class Program
     // Create sheet
     Sheet sheet = new Sheet("..\\..\\..\\sheet.csv", "Twins");
 
+    // Total entry count
+    Console.WriteLine(sheet.TotalEntries);
+
     // List of all survivor perks ordered
     Console.WriteLine("\nSurvivor perks");
     sheet.OutputRatesPerk(false);

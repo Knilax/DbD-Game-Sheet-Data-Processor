@@ -11,6 +11,7 @@ public class Sheet
 {
 
 	// Properties
+	public int TotalEntries = 0;
 	public List<Entry> Entries = new List<Entry>();
 	public string Update;
 
@@ -45,7 +46,11 @@ public class Sheet
 		while ((currentLine = sheetFile.ReadLine()) != null)
 		{
 			Entry entry = new Entry(currentLine);
-			if (entry.LastMajorUpdate == Update) Entries.Add(entry);
+			if (entry.LastMajorUpdate == Update)
+			{
+				Entries.Add(entry);
+				TotalEntries++;
+			}
 		}
 
 		// Close input file
