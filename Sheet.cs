@@ -84,8 +84,9 @@ public class Sheet
 			if (name == "" || name == "?") continue;
 
 			// Write
-			Console.WriteLine($"{num}. {name} " +
-				$"({appearanceCounter.AppearanceRate()}%)");
+			Console.WriteLine($"{num}. {appearanceCounter.ToString()}");
+
+			// Increment number
 			num++;
 
 		} // end foreach appearanceCounter in arr
@@ -93,8 +94,9 @@ public class Sheet
 	} // end WriteAppearances
 
 	/**
-   * @desc Returns array of all perks, sorted
-   * @param killer {bool} Whether or not to check killer perks.
+   * @desc Appearances of all perks ordered
+   * @param killer {bool} Whether or not to check killer perks
+	 * @return {Killer[]} Sorted array of appearances of each perk
    */
 	public Perk[] AppearancesPerk(bool killer)
 	{
@@ -123,7 +125,7 @@ public class Sheet
 			}
 		}
 
-		// Array of all Perk objects
+		// Array of all Perk instances
 		Perk[] allPerks = new Perk[allPerkNames.Count];
 		for (int i = 0; i < allPerks.Length; i++)
 			allPerks[i] = new Perk(this, allPerkNames[i], killer);
@@ -134,10 +136,11 @@ public class Sheet
 		// Return
 		return allPerks;
 
-	} // end WritePerkAppearances
+	} // end AppearancesPerk
 
 	/**
-	 * @desc Writes out all killers in order of how often they are used
+	 * @desc Appearances of all killers ordered
+	 * @return {Killer[]} Sorted array of appearances of each killer
 	 */
 	public Killer[] AppearancesKiller()
   {
@@ -160,5 +163,42 @@ public class Sheet
 		return killers;
 
 	} // end AppearancesKiller
+
+	/**
+	 * @desc Appearances of all maps/realms ordered
+   * @param includeMap {bool} Whether or not to include the map
+	 * @return {Realm[]} Sorted array of appearances of each map/realm
+	 */
+	public Realm[] AppearancesRealm()
+	{
+
+		// List of all known maps
+		List<string> realmNames = new List<string>();
+		foreach (Entry entry in Entries)
+		{
+			// Add if not already in list
+			if (!Realm.IncludeMap)
+      {
+				if (!realmNames.Contains(Realm.ToMapOnly(entry.Realm)))
+					realmNames.Add(Realm.ToMapOnly(entry.Realm));
+      }
+			else if (!realmNames.Contains(entry.Realm))
+				realmNames.Add(entry.Realm);
+		}
+
+		// Array of Realm instances
+		Realm[] realms = new Realm[realmNames.Count];
+		for (int i = 0; i < realmNames.Count; i++)
+		{
+			realms[i] = new Realm(this, realmNames[i]);
+		}
+
+		// Sort array
+		SortAppearanceCounters(realms);
+
+		// Return
+		return realms;
+
+	} // end AppearancesMap
 
 } // end Sheet

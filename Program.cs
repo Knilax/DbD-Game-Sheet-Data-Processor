@@ -22,6 +22,16 @@ class Program
     Console.WriteLine("\nKiller perks");
     sheet.WriteAppearances(sheet.AppearancesPerk(true));
 
+    // List realm appearances ordered
+    Console.WriteLine("\nMost visited realms:");
+    Realm.IncludeMap = false;
+    sheet.WriteAppearances(sheet.AppearancesRealm());
+
+    // List map appearances ordered
+    Console.WriteLine("\nMost visited maps:");
+    Realm.IncludeMap = true;
+    sheet.WriteAppearances(sheet.AppearancesRealm());
+
     // List most played killers
     Console.WriteLine("\nMost played killers");
     sheet.WriteAppearances(sheet.AppearancesKiller());

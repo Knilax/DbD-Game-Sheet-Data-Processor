@@ -35,7 +35,9 @@ public class Killer : AppearanceCounter
       // Names match
       if (entry.Killer.ToLower() == Name.ToLower())
         dataAppearances++;
+
     } // end foreach entry in Entries
+
   } // end FindAppearances
 
 } // end Killer

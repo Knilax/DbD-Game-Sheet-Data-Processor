@@ -16,7 +16,7 @@ public class Entry
 	public string Role;
 	public string ScorescreenSlot;
 	public string Killer;
-	public string Map;
+	public string Realm;
 	public string VODSurvivor;
 	public string VODKiller;
 	public string StreamingSelf;
@@ -78,7 +78,7 @@ public class Entry
 		Role = rawEntry[ind++];
 		ScorescreenSlot = rawEntry[ind++];
 		Killer = rawEntry[ind++];
-		Map = rawEntry[ind++];
+		Realm = rawEntry[ind++];
 		VODSurvivor = rawEntry[ind++];
 		VODKiller = rawEntry[ind++];
 		StreamingSelf = rawEntry[ind++];
@@ -186,7 +186,7 @@ public class Entry
 		Console.WriteLine($"  Which scorescreen slot was I in?: " +
 			$"{ScorescreenSlot}");
 		Console.WriteLine($"  Killer: {Killer}");
-		Console.WriteLine($"  Map: {Map}");
+		Console.WriteLine($"  Realm (map): {Realm}");
 		Console.WriteLine($"  Survivor VOD: {VODSurvivor}");
 		Console.WriteLine($"  Killer VOD: {VODKiller}");
 		Console.WriteLine($"  Was I streaming?: {StreamingSelf}");

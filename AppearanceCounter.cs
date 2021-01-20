@@ -34,6 +34,15 @@ public abstract class AppearanceCounter
   public virtual void FindAppearances() { }
 
   /**
+   * @desc Displays the name and rate of the AppearanceCounter instance
+   * @return {string} Name and rate of instance
+   */
+  public override string ToString()
+  {
+    return $"{Name} ({AppearanceRate()}%)";
+  }
+
+  /**
    * @desc Calculates appearance rate of this item
    * @return {float} Returns percent rounded to 2 decimal points
    */
