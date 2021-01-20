@@ -32,21 +32,21 @@ public class Sheet
 			sheetFile = new StreamReader(
 				new FileStream(path, FileMode.Open));
 		}
-		catch (Exception exc)
+		catch
 		{
 			Environment.Exit(1);
 		}
 
 		// Skip header
-		for(int i = 0; i < 5; i++) sheetFile.ReadLine();
+		for (int i = 0; i < 5; i++) sheetFile.ReadLine();
 
 		// Add entries
 		string currentLine;
 		while ((currentLine = sheetFile.ReadLine()) != null)
-    {
+		{
 			Entry entry = new Entry(currentLine);
-			if(entry.LastMajorUpdate == Update) Entries.Add(entry);
-    }
+			if (entry.LastMajorUpdate == Update) Entries.Add(entry);
+		}
 
 		// Close input file
 		sheetFile.Close();
@@ -54,43 +54,20 @@ public class Sheet
 	} // end Sheet constructor
 
 	/**
-	 * @desc Sorts an array of AppearanceCounter instances
-	 * @param myArray {AppearanceCounter[]} Array of AppearanceCounter instances
-	 */
-	private void SortAppearanceCounters(AppearanceCounter[] unsortedArray)
-  {
-		Array.Sort(unsortedArray,
-			delegate (AppearanceCounter x, AppearanceCounter y)
-		{
-			return y.AppearanceRate().CompareTo(x.AppearanceRate());
-		});
-	}
-
-	/**
 	 * @desc Writes out array of AppearanceCounter instances ordered
 	 * @param arr {AppearanceCounter[]} Array of AppearanceCounter instances
 	 */
-	public void WriteAppearances(AppearanceCounter[] arr)
-  {
-
-		// Write all perks
+	private void WriteAppearances(AppearanceCounter[] arr)
+	{
+		// Write all AppearanceCounters in array
 		int num = 1;
 		foreach (AppearanceCounter appearanceCounter in arr)
 		{
-
 			string name = appearanceCounter.Name;
-
-			// Don't include empty and unknown
 			if (name == "" || name == "?") continue;
-
-			// Write
 			Console.WriteLine($"{num}. {appearanceCounter.ToString()}");
-
-			// Increment number
 			num++;
-
-		} // end foreach appearanceCounter in arr
-
+		}
 	} // end WriteAppearances
 
 	/**
@@ -98,7 +75,7 @@ public class Sheet
    * @param killer {bool} Whether or not to check killer perks
 	 * @return {Killer[]} Sorted array of appearances of each perk
    */
-	public Perk[] AppearancesPerk(bool killer)
+	private Perk[] AppearancesPerk(bool killer)
 	{
 
 		// List of all names of perks found in spreadsheet
@@ -131,7 +108,7 @@ public class Sheet
 			allPerks[i] = new Perk(this, allPerkNames[i], killer);
 
 		// Sort array
-		SortAppearanceCounters(allPerks);
+		AppearanceCounter.Sort(allPerks);
 
 		// Return
 		return allPerks;
@@ -142,8 +119,8 @@ public class Sheet
 	 * @desc Appearances of all killers ordered
 	 * @return {Killer[]} Sorted array of appearances of each killer
 	 */
-	public Killer[] AppearancesKiller()
-  {
+	private Killer[] AppearancesKiller()
+	{
 
 		// List of all known killers
 		List<string> killerNames = new List<string>();
@@ -157,7 +134,7 @@ public class Sheet
 			killers[i] = new Killer(this, killerNames[i]);
 
 		// Sort array
-		SortAppearanceCounters(killers);
+		AppearanceCounter.Sort(killers);
 
 		// Return
 		return killers;
@@ -169,7 +146,7 @@ public class Sheet
    * @param includeMap {bool} Whether or not to include the map
 	 * @return {Realm[]} Sorted array of appearances of each map/realm
 	 */
-	public Realm[] AppearancesRealm()
+	private Realm[] AppearancesRealm()
 	{
 
 		// List of all known maps
@@ -178,10 +155,10 @@ public class Sheet
 		{
 			// Add if not already in list
 			if (!Realm.IncludeMap)
-      {
+			{
 				if (!realmNames.Contains(Realm.ToMapOnly(entry.Realm)))
 					realmNames.Add(Realm.ToMapOnly(entry.Realm));
-      }
+			}
 			else if (!realmNames.Contains(entry.Realm))
 				realmNames.Add(entry.Realm);
 		}
@@ -189,16 +166,108 @@ public class Sheet
 		// Array of Realm instances
 		Realm[] realms = new Realm[realmNames.Count];
 		for (int i = 0; i < realmNames.Count; i++)
-		{
 			realms[i] = new Realm(this, realmNames[i]);
-		}
 
 		// Sort array
-		SortAppearanceCounters(realms);
+		AppearanceCounter.Sort(realms);
 
 		// Return
 		return realms;
 
 	} // end AppearancesMap
+
+	/**
+	 * @desc Write out current best killer streak
+	 */
+	public void OutputStreakWinKiller()
+	{
+		// List of all known killers
+		List<string> killerNames = new List<string>();
+		foreach (Entry entry in Entries)
+			if (!killerNames.Contains(entry.Killer))
+				killerNames.Add(entry.Killer);
+
+		// Array of Streak instances
+		Streak[] streaks = new Streak[killerNames.Count];
+		for (int i = 0; i < killerNames.Count; i++)
+			streaks[i] = new Streak(this, killerNames[i]);
+
+		// Calculate streaks
+		foreach (Entry entry in Entries)
+		{
+			// Find how many escaped
+			bool hasUnknown = false;
+			int escaped = 0;
+			foreach (string survivorEscaped in entry.Escaped)
+			{
+				if(survivorEscaped == "?")
+        {
+					hasUnknown = true;
+					break;
+        }
+				else if (survivorEscaped == "Yes") escaped++;
+			}
+			// Unknown if a survivor escaped or not
+			if (hasUnknown || entry.Killer == "?") continue;
+			// Add/reset streak of killer
+			foreach (Streak streak in streaks)
+				if (streak.Name == entry.Killer)
+				{
+					if (escaped > 1) streak.PlayNextGame(false);
+					else streak.PlayNextGame(true);
+				}
+		} // end foreach entry in Entries
+
+		// Sort streaks
+		Array.Sort(streaks,
+			delegate (Streak x, Streak y)
+			{
+				return y.BestStreak.CompareTo(x.BestStreak);
+			});
+
+		// Write streaks
+		int num = 1;
+		foreach(Streak streak in streaks)
+    {
+			Console.WriteLine(num + ". " + streak.ToString());
+			num++;
+    }
+
+	} // end OutputStreakWinKiller
+
+	/**
+	 * @desc Write out killer/survivor perks
+	 * @param kill {bool} Write killer perks instead of survivor perks
+	 */
+	public void OutputRatesPerk(bool killer)
+	{
+		WriteAppearances(AppearancesPerk(killer));
+	} // end OutputRatesPerk
+
+	/**
+	 * @desc Write out maps
+	 */
+	public void OutputRatesMap()
+	{
+		Realm.IncludeMap = true;
+		WriteAppearances(AppearancesRealm());
+	} // end OutputRatesMap
+
+	/**
+	 * @desc Write out realms
+	 */
+	public void OutputRatesRealm()
+	{
+		Realm.IncludeMap = false;
+		WriteAppearances(AppearancesRealm());
+	} // end OutputRatesRealm
+
+	/**
+	 * @desc Write out killer play rates
+	 */
+	public void OutputRatesKiller()
+	{
+		WriteAppearances(AppearancesKiller());
+	} // end OutputRatesKiller
 
 } // end Sheet

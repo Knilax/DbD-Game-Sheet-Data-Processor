@@ -28,6 +28,19 @@ public abstract class AppearanceCounter
   }
 
   /**
+  * @desc Sorts an array of AppearanceCounter instances
+  * @param myArray {AppearanceCounter[]} Array of AppearanceCounter instances
+  */
+  public static void Sort(AppearanceCounter[] unsortedArray)
+  {
+    Array.Sort(unsortedArray,
+      delegate (AppearanceCounter x, AppearanceCounter y)
+      {
+        return y.AppearanceRate().CompareTo(x.AppearanceRate());
+      });
+  }
+
+  /**
    * @desc Finds how often this piece of data occurs, then calculates
    * appearance rate.
    */
@@ -51,5 +64,6 @@ public abstract class AppearanceCounter
     FindAppearances();
     return (float) Math.Round((float) dataAppearances / dataChecked * 100, 2);
   }
+
 
 }

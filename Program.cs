@@ -16,25 +16,27 @@ class Program
 
     // List of all survivor perks ordered
     Console.WriteLine("\nSurvivor perks");
-    sheet.WriteAppearances(sheet.AppearancesPerk(false));
+    sheet.OutputRatesPerk(false);
 
     // List of all killer perks ordered
     Console.WriteLine("\nKiller perks");
-    sheet.WriteAppearances(sheet.AppearancesPerk(true));
+    sheet.OutputRatesPerk(true);
 
     // List realm appearances ordered
     Console.WriteLine("\nMost visited realms:");
-    Realm.IncludeMap = false;
-    sheet.WriteAppearances(sheet.AppearancesRealm());
+    sheet.OutputRatesRealm();
 
     // List map appearances ordered
     Console.WriteLine("\nMost visited maps:");
-    Realm.IncludeMap = true;
-    sheet.WriteAppearances(sheet.AppearancesRealm());
+    sheet.OutputRatesMap();
 
     // List most played killers
     Console.WriteLine("\nMost played killers");
-    sheet.WriteAppearances(sheet.AppearancesKiller());
+    sheet.OutputRatesKiller();
+
+    // List best killer streaks
+    Console.WriteLine("\nCurrent best killer streaks");
+    sheet.OutputStreakWinKiller();
 
   }
 

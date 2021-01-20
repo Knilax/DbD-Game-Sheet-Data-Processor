@@ -68,7 +68,8 @@ public class Entry
 
 		// The reason I do it like this is because I add/change header names
 		//   a lot. This allows me to flexibly change the order of headers.
-		//   If there's a better way, I do not know it because I am dumb.
+		//   If there's a better way, I either do not know it because I am dumb or
+		//   I choose not to because I do not find the work necessary.
 		// Starting index for raw entry
 		int ind = 0;
 		// Set properties
@@ -113,7 +114,7 @@ public class Entry
 	 * @param delim {char} Delimiter
 	 * @return {string[]} Array of strings
 	 */
-	private string[] splitIgnoreQuotes(string str, char delim)
+	private static string[] splitIgnoreQuotes(string str, char delim)
   {
 		// If first and last character of string are quote, remove them
 		if(str[0] == '"' && str[str.Length - 1] == '"')
@@ -163,7 +164,7 @@ public class Entry
 	 * @param elementsCount {ind} Number of elements to copy
 	 * @return (string[]) Copied array
 	 */
-	private string[] CopyData(ref string[] source, ref int startIndex,
+	private static string[] CopyData(ref string[] source, ref int startIndex,
 		int elementsCount)
 	{
 		string[] destination = new string[elementsCount];
