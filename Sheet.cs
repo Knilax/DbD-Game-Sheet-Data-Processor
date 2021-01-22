@@ -80,7 +80,7 @@ public class Sheet
    * @param killer {bool} Whether or not to check killer perks
 	 * @return {Killer[]} Sorted array of appearances of each perk
    */
-	private Perk[] AppearancesPerk(bool killer)
+	public Perk[] AppearancesPerk(bool killer)
 	{
 
 		// List of all names of perks found in spreadsheet
@@ -124,7 +124,7 @@ public class Sheet
 	 * @desc Appearances of all killers ordered
 	 * @return {Killer[]} Sorted array of appearances of each killer
 	 */
-	private Killer[] AppearancesKiller()
+	public Killer[] AppearancesKiller()
 	{
 
 		// List of all known killers
@@ -151,7 +151,7 @@ public class Sheet
    * @param includeMap {bool} Whether or not to include the map
 	 * @return {Realm[]} Sorted array of appearances of each map/realm
 	 */
-	private Realm[] AppearancesRealm()
+	public Realm[] AppearancesRealm()
 	{
 
 		// List of all known maps
@@ -274,5 +274,18 @@ public class Sheet
 	{
 		WriteAppearances(AppearancesKiller());
 	} // end OutputRatesKiller
+
+	/**
+	 * @desc Outputs only names and only rates of AppearanceCounter[] array
+	 * @param arr {AppearanceCounter} Array of AppearanceCounters
+	 */
+	public void OutputPieChartStrings(AppearanceCounter[] arr)
+  {
+		foreach (AppearanceCounter perk in arr)
+			Console.WriteLine(perk.Name);
+		Console.WriteLine();
+		foreach (AppearanceCounter perk in arr)
+			Console.WriteLine(perk.AppearanceRate());
+	}
 
 } // end Sheet

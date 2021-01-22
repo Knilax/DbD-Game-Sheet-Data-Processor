@@ -41,6 +41,13 @@ class Program
     Console.WriteLine("\nCurrent best killer streaks");
     sheet.OutputStreakWinKiller();
 
+    // For pie chart (temp)
+    Console.WriteLine("\nPie chart survivor perks");
+    sheet.OutputPieChartStrings(sheet.AppearancesPerk(false));
+    Console.WriteLine("\nPie chart realms");
+    Realm.IncludeMap = false;
+    sheet.OutputPieChartStrings(sheet.AppearancesRealm());
+
   }
 
 }
